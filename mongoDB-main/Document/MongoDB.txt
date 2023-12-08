@@ -1,0 +1,94 @@
+Demo:
+Prints people who have job as manager or salesman and
+sorts alphabetically of job and descending of sal
+
+db.emp.find({	//Start of qwery
+    $or: [{		//id with job manager OR salesman
+        job: 'manager'
+    }, {
+        job: 'salesman'
+    }]
+}, {		//Start of projection
+    _id: false,	//ignore this column bcs false value	//can also be 0 OR false
+    job: true,	//show this column in console bcs true	//also be any positive integer
+    sal: true	//show this column in console bcs true
+
+}).sort({	//.sort for sorting our collection
+    job: 1,     //1 means ascending order
+    sal: -1	//-1 means descending order
+
+})
+.skip(1)	//Skips 1 row
+.limit(3)	//Prints 3 rows from top
+===========================================================================================
+Count:
+1.Unconditional Count
+		> db.emp.find().count()	//return the number of documents(records)
+		o/p = 60
+2.Conditional Count
+		db.emp.find({
+    			$or: [{
+       				job: 'manager'
+    			}, {
+        			job: 'salesman'
+    			}]
+		}, {
+    			_id: false,
+    			job: true
+		}).sort({
+   			job: 1,
+		}).count()
+===========================================================================================
+Alias: Will give an alias to any field you want to represent in console
+	Example: Salary: '$sal' 
+		db.emp.find({
+    			$or: [{
+       				job: 'manager'
+    			}, {
+        			job: 'salesman'
+    			}]
+		}, {
+    			_id: false,
+    			job: true,
+			Salary: '$sal'
+		}).sort({
+   			job: 1,
+		}).count()
+===========================================================================================
+Like: will give output according to character passed in like definition 
+
+3 types:
+1./character/-- letter with 'character'
+2./^character/ --letter start with 'character'
+3./character$/ --letter end with 'character'
+
+1. /character/-- letter with 'character'
+
+db.emp.find({
+    ename: /a/		/a/--print ename with character 'a'
+}, {
+    _id: false,
+    ename: true
+})
+-------------------------------------------------------------------------------------------
+2./^character/ --letter start with 'character'
+
+db.emp.find({
+    ename: /^a/
+}, {
+    _id: false,
+    ename: true
+})
+-------------------------------------------------------------------------------------------
+3./character$/ --letter end with 'character'
+db.emp.find({
+    ename: /a$/
+}, {
+    _id: false,
+    ename: true
+})
+===========================================================================================
+Distinct: 
+	db.emp.distinct('job)  		.......		show differenebt types of jobs
+	db.emp.distinct('job).length 	.......		show number of jobs in emp table
+===========================================================================================
